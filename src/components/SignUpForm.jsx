@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-function SignUpForm(){
+function SignUpForm({setToken}){
 
 const [username, setUsername] = useState("")
 const [password, setPassword] = useState ("")
@@ -10,9 +10,24 @@ const [error, setError] = useState(null);
     async function handleSubmit(event) {
         event.preventDefault();
 
-        try{} 
-        catch (error) {
-            setError(error.message);
+        try{
+            console.log("hello!")
+            const response = await fetch ("https://fsa-jwt-practice.herokuapp.com/signup", {
+                method:"POST",
+                headers:{"Content-type": "application/json"},
+                body: JSON.stringify({
+                    username: username,
+                    password:password,}),
+            })
+        
+
+        const result = await response.json();
+        console.log(result); 
+        setToken(result.token)
+
+
+        }catch(error) {
+            console.log(error)
         }
 
         const response = await fetch("https://fsa-jwt-practice.herokuapp.com/signup");
